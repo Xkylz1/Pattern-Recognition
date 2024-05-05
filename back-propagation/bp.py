@@ -35,16 +35,12 @@ Y = np.array([[0.1905],
               [0.1662],
               [0.2902]])
 
-# Inisialisasi bobot dan bias secara acak
+# Inisialisasi bobot dengan rentang -0.5 sampai 0.5
 np.random.seed(1)
-input_neurons = 3
-hidden_neurons = 5
-output_neurons = 1
-
-weights_input_hidden = np.random.uniform(size=(input_neurons, hidden_neurons))
-weights_hidden_output = np.random.uniform(size=(hidden_neurons, output_neurons))
-bias_hidden = np.random.uniform(size=(1, hidden_neurons))
-bias_output = np.random.uniform(size=(1, output_neurons))
+weights_input_hidden = np.random.uniform(low=-0.5, high=0.5, size=(3, 5))
+weights_hidden_output = np.random.uniform(low=-0.5, high=0.5, size=(5, 1))
+bias_hidden = np.random.uniform(size=(1, 5))
+bias_output = np.random.uniform(size=(1, 1))
 
 # Hyperparameters
 learning_rate = 0.2
