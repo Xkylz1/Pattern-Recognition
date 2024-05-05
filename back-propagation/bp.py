@@ -1,3 +1,11 @@
+# Kelompok 1
+# Nama Anggota
+# 1. NANDA PUTRI RAHMAWATI (2011016320021)
+# 2. HELMA MUKIMAH (2211016220008)
+# 3. NORKHADIJAH (2211016220030)
+# 4. FAUZAN SAPUTRA (2211016310003)
+# Link GDrive data dan output = https://drive.google.com/drive/folders/1f9xxjJve0hVL2KrljdZDwvG4Gr91DkdY?usp=sharing
+
 import numpy as np
 
 # Fungsi aktivasi sigmoid
@@ -20,7 +28,7 @@ X = np.array([[10009, 9850, 9888, 7899, 9005],
               [7652, 11121, 10111, 9978, 15053],
               [9070, 10029, 9987, 8755, 14889],
               [8901, 9553, 9997, 7654, 13988],
-              [8764, 10222, 10002, 8905, 15023]])
+              [8764, 10222, 10002, 8905, 15023]]) #data latih 2016-2020
 
 Y = np.array([[7899],
               [8990],
@@ -33,7 +41,7 @@ Y = np.array([[7899],
               [9978],
               [8755],
               [7654],
-              [8905]])
+              [8905]]) #data target latih 2019
 
 # Normalisasi data
 a = np.max(X)
@@ -83,11 +91,11 @@ for epoch in range(epochs):
         print(f"Training converged at epoch {epoch+1}")
         break
 
-# Uji data pada tahun 2021
-data_uji = np.array([[7899, 8990, 7890, 6987, 7985],  # Januari
-                     [9850, 7800, 8502, 9887, 9234],  # Februari
-                     [9888, 9866, 7809, 8907, 8751],  # Maret
-                     [7899, 8999, 7890, 6987, 7985],  # April
+# Data uji 2020 + (random value)
+data_uji = np.array([[7899, 8990, 7890, 6987, 9005],  # Januari
+                     [9850, 7800, 8502, 9887, 8990],  # Februari
+                     [9888, 9866, 7809, 8907, 12067],  # Maret
+                     [7899, 8999, 7890, 6987, 14012],  # April
                      [9005, 8990, 12067, 14012, 11002],  # Mei
                      [8765, 9881, 8253, 8660, 14004],  # Juni
                      [6760, 7888, 7612, 9877, 14034],  # Juli
@@ -96,6 +104,7 @@ data_uji = np.array([[7899, 8990, 7890, 6987, 7985],  # Januari
                      [9070, 10029, 9987, 8755, 14889],  # Oktober
                      [8901, 9553, 9997, 7654, 13988],  # November
                      [8764, 10222, 10002, 8905, 15023]])  # Desember
+
 
 data_uji_normalized = 0.8 * (data_uji - b) / (a - b) + 0.1
 
