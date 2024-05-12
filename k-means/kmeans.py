@@ -4,7 +4,7 @@
 # 2. HELMA MUKIMAH (2211016220008)
 # 3. NORKHADIJAH (2211016220030)
 # 4. FAUZAN SAPUTRA (2211016310003)
-# Link GDrive data dan output = https://drive.google.com/drive/folders/1f9xxjJve0hVL2KrljdZDwvG4Gr91DkdY?usp=sharing
+# Link GDrive data dan output = https://drive.google.com/drive/folders/1cirruSZ6XfjytDq-dr9UFkAlLd30-fPp?usp=sharing
 
 
 import numpy as np
