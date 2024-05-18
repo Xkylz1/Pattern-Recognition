@@ -1,21 +1,20 @@
-# Cell 1: Import necessary libraries
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report
-# Cell 2: Load the dataset
-S = pd.read_csv('dataset_fisik.csv')
+S = pd.read_csv('lung_cancer_examples.csv')
 S = S.values
-# Cell 3: Separate input features and labels
-X = S[:, 0:4]  # Input features
-y = S[:, 4]    # Labels
-# Cell 4: Initialize K-Fold cross-validation
+X = S[:, 2:6]  # Input features (Age, Smokes, AreaQ, Alkhol)
+y = S[:, 6]    # Labels (Result)
+
+# Ensure that the labels are integers
+y = y.astype(int)
+# Initialize K-Fold cross-validation
 kf = KFold(n_splits=5, random_state=0, shuffle=True)
 
-# Print KFold object to understand its structure
 print(kf)
-# Cell 5: Loop over different values of k
+# Loop over different values of k
 results = {}  # Dictionary to store results for each k
 
 for k in range(1, 6):
@@ -51,7 +50,7 @@ for k in range(1, 6):
         "average_precision": np.mean(avg_pre),
         "average_recall": np.mean(avg_rec)
     }
-# Cell 6: Print results for each k and determine the best k based on average accuracy
+# Print results for each k and determine the best k based on average accuracy
 best_k = 1
 best_accuracy = 0
 
@@ -67,25 +66,17 @@ for k in results:
         best_k = k
 
 print(f"The best k is {best_k} with an average accuracy of {best_accuracy}")
+# Test new data
+# Example test data
+new_data = np.array([[43 , 17, 6, 0]])  # Example new data based on provided format
 
-# Cell 7: Test new data
-# Example test data: replace this with your actual test data
-new_data = np.array([[18, 47, 155, 37]])
+# Print prediction for new data with the best k
+# neigh2 = KNeighborsClassifier(n_neighbors=best_k, metric='euclidean')
+# neigh2.fit(X, y)  # Fit the model on the entire dataset
+# new_prediction = neigh2.predict(new_data)
+# print(f"Prediction for new data with k = {best_k}:", new_prediction)
 
-# neigh2 = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
-
-# Predict the class for the new data using the best model
-neigh2 = KNeighborsClassifier(n_neighbors=best_k, metric='euclidean')
-neigh2.fit(X, y)  # Fit the model on the entire dataset
-
-# Predict the class for the new data
-new_prediction = neigh2.predict(new_data)
-
-# Print the prediction result
-print(f"Prediction for new data with k = {best_k}:", new_prediction)
-# print(f"Prediction for new data with k = {k}:", new_prediction)
-
-#loop k =1 - k = 5
+# Loop k = 1 to k = 5 to predict the class for the new data
 for k in range(1, 6):
     # Create the KNeighborsClassifier with k neighbors
     neigh2 = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
@@ -96,6 +87,11 @@ for k in range(1, 6):
     # Predict the class for the new data
     new_prediction = neigh2.predict(new_data)
     
+    # Determine label based on prediction
+    if new_prediction == 1:
+        label = 'Cancer'
+    else:
+        label = 'Non Cancer'
+    
     # Print the prediction result
-    print(f"Prediction for new data with k = {k}:", new_prediction)
-# In this script:
+    print(f"Prediction for new data with k = {k}:", label)
