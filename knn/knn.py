@@ -1,3 +1,11 @@
+# Kelompok 1
+# Nama Anggota
+# 1. NANDA PUTRI RAHMAWATI (2011016320021)
+# 2. HELMA MUKIMAH (2211016220008)
+# 3. NORKHADIJAH (2211016220030)
+# 4. FAUZAN SAPUTRA (2211016310003)
+# Link GDrive data dan output = https://drive.google.com/drive/folders/1-dgVW5mK2UjWzQTQIz2j16YxZ6oczWcy?usp=drive_link
+
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
