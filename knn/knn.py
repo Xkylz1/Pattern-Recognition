@@ -3,17 +3,24 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report
-S = pd.read_csv('lung_cancer_examples.csv')
+
+# Load the dataset
+S = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/knn/lung_cancer_examples.csv')
 S = S.values
+
+# Separate input features and labels
 X = S[:, 2:6]  # Input features (Age, Smokes, AreaQ, Alkhol)
 y = S[:, 6]    # Labels (Result)
 
 # Ensure that the labels are integers
 y = y.astype(int)
+
 # Initialize K-Fold cross-validation
 kf = KFold(n_splits=5, random_state=0, shuffle=True)
 
+# Print KFold object to understand its structure
 print(kf)
+
 # Loop over different values of k
 results = {}  # Dictionary to store results for each k
 
@@ -50,6 +57,7 @@ for k in range(1, 6):
         "average_precision": np.mean(avg_pre),
         "average_recall": np.mean(avg_rec)
     }
+
 # Print results for each k and determine the best k based on average accuracy
 best_k = 1
 best_accuracy = 0
@@ -66,32 +74,3 @@ for k in results:
         best_k = k
 
 print(f"The best k is {best_k} with an average accuracy of {best_accuracy}")
-# Test new data
-# Example test data
-new_data = np.array([[43 , 17, 6, 0]])  # Example new data based on provided format
-
-# Print prediction for new data with the best k
-# neigh2 = KNeighborsClassifier(n_neighbors=best_k, metric='euclidean')
-# neigh2.fit(X, y)  # Fit the model on the entire dataset
-# new_prediction = neigh2.predict(new_data)
-# print(f"Prediction for new data with k = {best_k}:", new_prediction)
-
-# Loop k = 1 to k = 5 to predict the class for the new data
-for k in range(1, 6):
-    # Create the KNeighborsClassifier with k neighbors
-    neigh2 = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
-    
-    # Fit the model on the entire dataset
-    neigh2.fit(X, y)
-    
-    # Predict the class for the new data
-    new_prediction = neigh2.predict(new_data)
-    
-    # Determine label based on prediction
-    if new_prediction == 1:
-        label = 'Cancer'
-    else:
-        label = 'Non Cancer'
-    
-    # Print the prediction result
-    print(f"Prediction for new data with k = {k}:", label)
