@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, class
 S = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/knn/lung_cancer_examples.csv')
 S = S.values
 
-# Separate input features and labels
+# Extract input features and labels
 X = S[:, 2:6]  # Input features (Age, Smokes, AreaQ, Alkhol)
 y = S[:, 6]    # Labels (Result)
 
@@ -26,7 +26,7 @@ y = y.astype(int)
 # Initialize K-Fold cross-validation
 kf = KFold(n_splits=5, random_state=0, shuffle=True)
 
-# Print KFold object to understand its structure
+# Print KFold configuration
 print(kf)
 
 # Loop over different values of k
@@ -82,3 +82,24 @@ for k in results:
         best_k = k
 
 print(f"The best k is {best_k} with an average accuracy of {best_accuracy}")
+
+# Test new data
+# Example test data
+new_data = np.array([[43 , 17, 6, 0]])  # Example new data based on provided format
+
+# Loop k = 1 to k = 5 to predict the class for the new data
+for k in range(1, 6):
+    # Create the KNeighborsClassifier with k neighbors
+    neigh2 = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
+    
+    # Fit the model on the entire dataset
+    neigh2.fit(X, y)
+    
+    # Predict the class for the new data
+    new_prediction = neigh2.predict(new_data)
+    
+    # Determine label based on prediction
+    label = 'Cancer' if new_prediction == 1 else 'Non Cancer'
+    
+    # Print the prediction result
+    print(f"Prediction for new data with k = {k}:", label)
