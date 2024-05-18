@@ -24,7 +24,7 @@ y = S[:, 6]    # Labels (Result)
 y = y.astype(int)
 
 # Initialize K-Fold cross-validation
-kf = KFold(n_splits=5, random_state=0, shuffle=True)
+kf = KFold(n_splits=3, random_state=0, shuffle=True)
 
 # Print KFold configuration
 print(kf)
