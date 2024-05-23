@@ -1,5 +1,5 @@
-import numpy as np
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
@@ -7,17 +7,13 @@ from sklearn.tree import export_graphviz
 import pydotplus
 from IPython.display import Image
 
-# Load necessary libraries
-
-# Load the dataset
-df = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/decision-tree/lung_cancer_examples.csv')
-
+# Dataset
+df = pd.read_csv('../lung_cancer_examples.csv')
 
 # Display the first few rows of the dataset
-df.head()
+print(df.head())
 
 # Preprocess Data
-# Select columns for features and target
 X = df.iloc[:, 2:-1].values
 y = df.iloc[:, -1].values
 
@@ -40,21 +36,26 @@ print('Classification Report:')
 print(classification_report(y_test, y_pred))
 
 # Test with a Specific Sample
-sample = np.array([[30, 0, 5, 2]])  # Replace with your actual sample
+sample = np.array([[30, 0, 5, 2]])
 prediction = rf.predict(sample)
+sample_label = 'Cancer' if prediction[0] == 1 else 'Non-Cancer'
+print(f'Prediction for sample [30, 0, 5, 2]: {sample_label}')
 
-print('Prediction for sample [30, 0, 5, 2]:', prediction[0])
+# Extract one tree from the forest (e.g., the first tree)
+tree = rf.estimators_[0]
 
-# Export the tree as DOT data with simplified visualization parameters
-dot_data = export_graphviz(rf.estimators_[0], out_file=None, 
+# Export the tree as DOT data with detailed visualization parameters
+dot_data = export_graphviz(tree, out_file=None,
                            feature_names=df.columns[2:-1],
                            class_names=[str(i) for i in set(y)],
                            filled=True, rounded=True,
                            special_characters=True,
                            max_depth=3,  # Limit the depth for better readability
-                           node_ids=False,  # Do not show node IDs
-                           label='none',  # Do not show labels
-                           leaves_parallel=False)
+                           node_ids=True,  # Show node IDs
+                           proportion=True,  # Show proportions of samples
+                           impurity=True,  # Show impurity
+                           label='all',  # Include more detailed labels
+                           leaves_parallel=False)  # Use parallel leaves
 
 # Use pydotplus to create a graph from the DOT data
 graph = pydotplus.graph_from_dot_data(dot_data)
