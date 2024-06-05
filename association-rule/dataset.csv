@@ -1,0 +1,16 @@
+﻿ID Transaksi, Produk
+1, Beras,Minyak Goreng,Susu
+2, Beras,Mi Instan
+3, Minyak Goreng,Susu,Mi Instan
+4, Beras,Susu,Telur
+5, Minyak Goreng,Mi Instan,Telur
+6, Susu,Mi Instan
+7, Beras,Minyak Goreng
+8, Beras,Minyak Goreng,Mi Instan
+9, Minyak Goreng,Susu,Telur
+10, Beras,Mi Instan,Telur
+11, Minyak Goreng,Susu
+12, Beras,Susu,Mi Instan
+13, Susu,Telur
+14, Beras,Telur
+15, Minyak Goreng,Mi Instan
