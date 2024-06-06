@@ -1,39 +1,43 @@
-# Import libraries
 import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 
-# Membaca dataset dari file CSV (pastikan lokasi file CSV yang benar)
-df = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/association-rule\dataset.csv')
+# Membaca dataset transaksi dari file CSV
+df = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/association-rule/transactions.csv')
 
-# Menampilkan nama kolom untuk memeriksa kesalahan
-print(df.columns)
+# Memisahkan kolom 'Produk' menjadi daftar produk
+df['Produk'] = df['Produk'].apply(lambda x: x.split(','))
 
-# Menghapus leading/trailing spaces dari nama kolom
-df.columns = df.columns.str.strip()
+# Mengubah data transaksi ke dalam format yang sesuai untuk algoritma Apriori
+te = TransactionEncoder()
+te_ary = te.fit(df['Produk']).transform(df['Produk'])
+df_transformed = pd.DataFrame(te_ary, columns=te.columns_)
 
-# Pastikan kolom 'Produk' ada di dalam DataFrame
-if 'Produk' in df.columns:
-    # Memisahkan kolom 'Produk' menjadi kolom item yang terpisah
-    df_products = df['Produk'].str.get_dummies(',')
+# Menjalankan algoritma Apriori
+frequent_itemsets = apriori(df_transformed, min_support=0.2, use_colnames=True)
 
-    # Menggabungkan DataFrame asli dengan DataFrame biner
-    df = df.drop(columns=['ID Transaksi', 'Produk']).join(df_products)
+# Menemukan aturan asosiasi
+rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1.0)
 
-    # Menampilkan DataFrame setelah transformasi
-    print(df.head())
+# Menampilkan aturan asosiasi
+print("Aturan Asosiasi yang Ditemukan:")
+print(rules)
 
-    # Menggunakan algoritma Apriori untuk mencari frequent itemsets
-    frequent_itemsets = apriori(df, min_support=0.1, use_colnames=True)
+# Menyaring aturan asosiasi berdasarkan confidence dan lift yang tinggi
+filtered_rules = rules[(rules['confidence'] >= 0.6) & (rules['lift'] >= 1.2)]
 
-    # Menghitung association rules
-    rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+print("\nAturan Asosiasi yang Disaring (confidence >= 0.6 dan lift >= 1.2):")
+print(filtered_rules)
 
-    # Filter association rules based on desired conditions
-    rice_eggs_rules = rules[rules['consequents'].astype(str).str.contains("Telur") & rules['consequents'].astype(str).str.contains("Beras")]
-
-    # Menampilkan hasil aturan yang relevan
-    print("\nAssociation Rules (Eggs and Rice):")
-    print(rice_eggs_rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
-
+# Menyusun kesimpulan
+if not filtered_rules.empty:
+    print("\nKesimpulan:")
+    for _, rule in filtered_rules.iterrows():
+        antecedents = ', '.join(rule['antecedents'])
+        consequents = ', '.join(rule['consequents'])
+        support = rule['support']
+        confidence = rule['confidence']
+        lift = rule['lift']
+        print(f"Jika seseorang membeli {antecedents}, mereka cenderung juga membeli {consequents} (Support: {support:.2f}, Confidence: {confidence:.2f}, Lift: {lift:.2f}).")
 else:
-    print("Kolom 'Produk' tidak ditemukan di dalam DataFrame.")
+    print("\nTidak ada aturan asosiasi yang memenuhi kriteria penyaringan.")
