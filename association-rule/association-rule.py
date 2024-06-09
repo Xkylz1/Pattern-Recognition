@@ -3,7 +3,7 @@ from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 
 # Membaca dataset transaksi dari file CSV
-df = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/association-rule/transactions.csv')
+df = pd.read_csv('C:/Users/ACER/Documents/Pattern-Recognition/association-rule/transactions_1.csv')
 
 # Memisahkan kolom 'Produk' menjadi daftar produk
 df['Produk'] = df['Produk'].apply(lambda x: x.split(','))
